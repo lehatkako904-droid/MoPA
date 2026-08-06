@@ -48,7 +48,7 @@ db.serialize(() => {
 });
 
 // ============================
-//  داخڵکردنی بەکارهێنەری admin (ئەگەر بوونی نەبوو)
+//  داخڵکردنی بەکارهێنەری admin
 // ============================
 function seedAdmin() {
   db.get("SELECT id FROM users WHERE username = 'admin'", (err, row) => {
@@ -197,15 +197,24 @@ app.get('/api/vendors', (req, res) => {
 });
 
 // ============================
-//  ڕێڕەوی گشتی بۆ هەموو داواکارییەکانی تر (SPA)
-//  ئەم ڕێڕەوە دەبێت لە کۆتایی هەموو ڕێڕەوەکانی APIـدا بێت
+//  ڕێڕەوی گشتی بۆ SPA
+//  تەنها داواکارییەکانی HTML دەنێرێت بۆ index.html
 // ============================
 app.get('*', (req, res) => {
-    // ئەگەر داواکاری بۆ ڕێڕەوی API بێت و نەدۆزرایەوە، 404 بگەڕێنەوە
-    if (req.path.startsWith('/api/')) {
-        return res.status(404).json({ error: 'API endpoint not found' });
-    }
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  // ئەگەر داواکاری بۆ ڕێڕەوی API بێت، 404 JSON بگەڕێنەوە
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
+  
+  // ئەگەر داواکاری بۆ ڕێڕەوی فایلێک نەبێت (وەک .css, .js, .png) 
+  // و داواکاری HTML بێت، index.html بگەڕێنەوە
+  const accept = req.headers.accept || '';
+  if (accept.includes('text/html') || req.path === '/') {
+    return res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  }
+  
+  // ئەگەر داواکاری بۆ شتێکی تر بێت، 404 بگەڕێنەوە
+  res.status(404).json({ error: 'Not found' });
 });
 
 // ============================
