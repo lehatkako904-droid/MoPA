@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>وەزارەتی پێشمەرگە - پۆرتاڵی نرخی دابینکەران</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- فۆنتی پشتیوانی کوردی و عەرەبی -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ===== بنەڕەت ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* گۆڕانکاری گرنگ: زیادکردنی وێنەکە وەک باکگراوند */
+            background-image: url('bg.png'); /* تکایە وێنەکە بە ناوی bg.png پاشەکەوت بکە */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #f4f7fc; /* ڕەنگی پشتەوە کاتێک وێنەکە بارنەبێت */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        html[dir="rtl"] { direction: rtl; }
+        html[dir="ltr"] { direction: ltr; }
+
+        /* ===== لۆگۆ ===== */
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+        }
+        .logo-icon-box {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #0b3d5f, #1a6b8a);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 900;
+            box-shadow: 0 4px 12px rgba(11, 61, 95, 0.35);
+            flex-shrink: 0;
+            font-family: 'Noto Sans Arabic', sans-serif;
+        }
+        .logo-text-group {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.25;
+        }
+        .logo-text-group .logo-ku {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0b3d5f;
+        }
+        .logo-text-group .logo-en {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #1a6b8a;
+            letter-spacing: 0.5px;
+        }
+        .logo-text-group .logo-sub {
+            font-size: 0.45rem;
+            font-weight: 400;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        @media (max-width: 640px) {
+            .logo-icon-box { width: 40px; height: 40px; font-size: 1.2rem; }
+            .logo-text-group .logo-ku { font-size: 0.7rem; }
+            .logo-text-group .logo-en { font-size: 0.55rem; }
+            .logo-text-group .logo-sub { font-size: 0.4rem; }
+        }
+
+        /* ===== کارت، ناڤبار و فووتەر بە شێوەی شووشەیی (Glassmorphism) ===== */
+        .card {
+            background: rgba(255, 255, 255, 0.88); /* شەفاف کراوە */
+            backdrop-filter: blur(6px); /* ئەمە دەبێتە هۆی دەرکەوتنی باکگراوندەکە لە پشتەوە */
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            padding: 1.8rem 2rem;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .card-header {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #0b3d5f;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .card-header i { color: #1a6b8a; }
+        .form-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #334155;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+        .form-control, .form-select {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.65rem 1rem;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: rgba(250, 252, 255, 0.9);
+            width: 100%;
+            font-family: inherit;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #1a6b8a;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26, 107, 138, 0.12);
+            background: #fff;
+        }
+        .btn-primary {
+            background: #0b3d5f;
+            color: #fff;
+            border: none;
+            padding: 0.65rem 1.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary:hover {
+            background: #1a6b8a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(11, 61, 95, 0.25);
+        }
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1.5px solid #cbd5e1;
+            color: #334155;
+            padding: 0.55rem 1.4rem;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .btn-outline:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 0.4rem 0.9rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .btn-danger:hover { background: #dc2626; }
+        .table-wrap { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.9rem;
+        }
+        table thead th {
+            background: rgba(241, 245, 249, 0.8);
+            color: #1e293b;
+            font-weight: 600;
+            padding: 0.7rem 1rem;
+            text-align: right;
+            border-bottom: 2px solid #e2e8f0;
+            white-space: nowrap;
+        }
+        table tbody td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid rgba(238, 242, 246, 0.6);
+            vertical-align: middle;
+        }
+        table tbody tr:hover { background: rgba(255, 255, 255, 0.4); }
+        .lang-switcher {
+            display: flex;
+            gap: 0.2rem;
+            background: rgba(241, 245, 249, 0.7);
+            padding: 0.2rem;
+            border-radius: 40px;
+        }
+        .lang-switcher button {
+            background: transparent;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .lang-switcher button.active {
+            background: #fff;
+            color: #0b3d5f;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        @media (max-width: 640px) {
+            .card { padding: 1.2rem 1rem; }
+            table thead th, table tbody td { padding: 0.4rem 0.5rem; font-size: 0.8rem; }
+            .btn-primary { padding: 0.5rem 1.2rem; font-size: 0.85rem; }
+        }
+        .badge-min {
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+        .badge-max {
+            background: #fee2e2;
+            color: #991b1b;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+        .product-row {
+            display: grid;
+            grid-template-columns: 1fr 0.7fr 0.7fr 0.7fr auto;
+            gap: 0.6rem;
+            align-items: end;
+            margin-bottom: 0.6rem;
+            padding: 0.4rem;
+            background: rgba(250, 252, 255, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(238, 242, 246, 0.8);
+        }
+        .product-row .form-control {
+            padding: 0.45rem 0.7rem;
+            font-size: 0.85rem;
+        }
+        .product-row .row-total {
+            font-weight: 700;
+            color: #0b3d5f;
+            padding: 0.45rem 0.5rem;
+            min-width: 60px;
+            text-align: center;
+        }
+        @media (max-width: 640px) {
+            .product-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.4rem;
+                padding: 0.6rem;
+            }
+            .product-row .row-total { grid-column: span 2; text-align: right; }
+        }
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .toast {
+            padding: 0.8rem 1.4rem;
+            border-radius: 14px;
+            color: #fff;
+            font-weight: 500;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            animation: slideUp 0.3s ease;
+            max-width: 380px;
+            font-family: inherit;
+        }
+        .toast-success { background: #16a34a; }
+        .toast-error { background: #dc2626; }
+        .toast-info { background: #1a6b8a; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 1.4rem;
+            color: #0b3d5f;
+            cursor: pointer;
+        }
+        .nav-links a {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #0b3d5f;
+        }
+        @media (max-width: 768px) {
+            .nav-mobile-toggle { display: block; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 1rem 0;
+                gap: 0.5rem;
+            }
+            .nav-links.open { display: flex; }
+        }
+        /* ڕاستکردنەوەی تێکست لە RTL */
+        .text-left-rtl { text-align: right; }
+        [dir="ltr"] .text-left-rtl { text-align: left; }
+    </style>
+</head>
+<body>
+
+    <!-- TOAST CONTAINER -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="bg-white/90 backdrop-blur-md shadow-sm border-b border-white/30 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <!-- لۆگۆ -->
+            <a href="/" class="logo-wrapper flex items-center gap-3">
+                <img src="/logo.png" alt="وەزارەتی پێشمەرگە" style="height: 80px; width: auto; object-fit: contain; border-radius: 8px;" />
+                <span class="logo-text-group flex flex-col justify-center">
+                    <span class="logo-ku text- font-extrabold text-blue-1000">حکوومەتی هەرێمی کوردستان</span>
+                    <span class="logo-ku text-xl font-extrabold text-blue-900">وەزارەتی پێشمەرگە</span>
+                    <span class="logo-en text-xs font-semibold text-gray-600 tracking-wider">MINISTRY OF PESHMERGA</span>
+                </span>
+            </a>
+
+            <!-- ناوەڕۆکی ڕاست -->
+            <div class="flex items-center gap-4">
+                <div class="nav-links flex items-center gap-4 text-sm font-medium text-slate-700" id="navLinks">
+                    <a href="/submit" data-i18n="nav.submit">پێشکەشکردنی نرخ</a>
+                    <a href="/logout" class="text-red-500" data-i18n="nav.logout">چوونەدەرەوە</a>
+                    <a href="/login" class="text-blue-600 font-semibold" data-i18n="nav.login">چوونەژوورەوە</a>
+                    <a href="/register" class="text-blue-600" data-i18n="nav.register">تۆمارکردن</a>
+                </div>
+                <div class="lang-switcher" id="langSwitcher">
+                    <button class="active" data-lang="ku" title="کوردی">کوردی</button>
+                    <button data-lang="ar" title="العربية">ع</button>
+                    <button data-lang="en" title="English">EN</button>
+                </div>
+                <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- PAGE TITLE -->
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <h1 class="text-lg sm:text-xl font-extrabold text-slate-800 drop-shadow-sm" id="pageTitle" data-i18n="page.title">پۆرتاڵی نرخی دابینکەران</h1>
+            <span class="text-sm text-slate-600 bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm border border-white/40">
+                <i class="far fa-calendar-alt ml-1"></i> <span id="currentDate"></span>
+            </span>
+        </div>
+
+        <!-- WELCOME -->
+        <div class="card mb-6 flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <span class="text-sm text-slate-500" data-i18n="welcome.greeting">بەخێربێیت</span>
+                <span class="font-bold text-slate-800" id="userDisplay">مێوان</span>
+                <span class="text-xs text-slate-400 mr-2" id="userRoleBadge"></span>
+            </div>
+            <div class="flex items-center gap-3 text-sm text-slate-600">
+                <i class="fas fa-store-alt text-blue-600"></i>
+                <span data-i18n="welcome.vendors">دابینکەرانی چالاک</span>
+                <span class="font-bold text-slate-800" id="vendorCount">0</span>
+                <span class="w-px h-6 bg-gray-300/50 mx-1"></span>
+                <i class="fas fa-file-invoice text-green-600"></i>
+                <span data-i18n="welcome.submissions">پێشکەشکردنەکان</span>
+                <span class="font-bold text-slate-800" id="submissionCount">0</span>
+            </div>
+        </div>
+
+        <!-- VENDOR DASHBOARD -->
+        <section id="vendorDashboard">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="card flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50/80 flex items-center justify-center text-blue-600 text-xl"><i class="fas fa-store"></i></div>
+                    <div><p class="text-xs text-slate-400 uppercase tracking-wide" data-i18n="stats.myShop">فرۆشگاکەم</p><p class="font-bold text-slate-800 text-lg" id="myShopName">—</p></div>
+                </div>
+                <div class="card flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-green-50/80 flex items-center justify-center text-green-600 text-xl"><i class="fas fa-file-invoice"></i></div>
+                    <div><p class="text-xs text-slate-400 uppercase tracking-wide" data-i18n="stats.mySubmissions">پێشکەشکردنەکانم</p><p class="font-bold text-slate-800 text-lg" id="mySubmissionsCount">0</p></div>
+                </div>
+                <div class="card flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50/80 flex items-center justify-center text-amber-600 text-xl"><i class="fas fa-tags"></i></div>
+                    <div><p class="text-xs text-slate-400 uppercase tracking-wide" data-i18n="stats.products">بەرهەمەکان</p><p class="font-bold text-slate-800 text-lg" id="myProductsCount">0</p></div>
+                </div>
+                <div class="card flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-50/80 flex items-center justify-center text-purple-600 text-xl"><i class="fas fa-chart-line"></i></div>
+                    <div><p class="text-xs text-slate-400 uppercase tracking-wide" data-i18n="stats.totalValue">کۆی نرخ</p><p class="font-bold text-slate-800 text-lg" id="myTotalValue">$0</p></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><i class="fas fa-clock"></i><span data-i18n="recent.title">پێشکەشکردنە نوێیەکان</span></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th data-i18n="recent.date">بەروار</th><th data-i18n="recent.shop">فرۆشگا</th><th data-i18n="recent.category">پۆل</th><th data-i18n="recent.items">بەرهەمەکان</th><th data-i18n="recent.total">کۆی گشتی</th><th data-i18n="recent.status">دۆخ</th></tr></thead>
+                        <tbody id="recentSubmissionsBody"><tr><td colspan="6" class="text-center text-slate-400 py-6" data-i18n="recent.empty">هیچ پێشکەشکردنێک نییە.</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUBMISSION FORM -->
+        <section id="submissionForm" class="hidden">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-pen-to-square"></i><span data-i18n="form.title">پێشکەشکردنی نرخی دابینکەر</span></div>
+                <form id="pricingForm" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="form-label" data-i18n="form.shopName">ناوی فرۆشگا / کۆمپانیا *</label><input type="text" class="form-control" id="shopName" required placeholder="بۆ نموونە: کارەبای ڕافدەین" /></div>
+                        <div><label class="form-label" data-i18n="form.phone">ژمارەی پەیوەندی *</label><input type="tel" class="form-control" id="contactPhone" required placeholder="+964 770 123 4567" /></div>
+                        <div><label class="form-label" data-i18n="form.email">ئیمەیڵی پەیوەندی</label><input type="text" class="form-control" id="contactEmail" placeholder="shop@example.com" /></div>
+                    </div>
+                    <div>
+                        <label class="form-label" data-i18n="form.category">پۆلی بەرهەم *</label>
+                        <select class="form-select" id="productCategory" required>
+                            <option value="" data-i18n="form.selectCategory">— پۆلێک هەڵبژێرە —</option>
+                            <option value="electronics" data-i18n="cat.electronics">ئەلیکترۆنی</option>
+                            <option value="electrical" data-i18n="cat.electrical">کارەبایی</option>
+                            <option value="construction" data-i18n="cat.construction">بیناسازی / کەلوپەل</option>
+                            <option value="plumbing" data-i18n="cat.plumbing">پلامبنگ</option>
+                            <option value="tools" data-i18n="cat.tools">ئامراز و کەلوپەل</option>
+                            <option value="other" data-i18n="cat.other">تر</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="font-semibold text-slate-700" data-i18n="form.products">بەرهەم و نرخ</span>
+                            <button type="button" class="btn-outline text-sm" id="addRowBtn"><i class="fas fa-plus-circle"></i> <span data-i18n="form.addRow">زیادکردنی ڕیز</span></button>
+                        </div>
+                        <div id="productRowsContainer"></div>
+                        <div class="flex justify-end items-center gap-4 mt-4 pt-3 border-t border-gray-300/50">
+                            <span class="text-sm font-medium text-slate-600" data-i18n="form.grandTotal">کۆی گشتی</span>
+                            <span class="text-2xl font-extrabold text-blue-700" id="grandTotalDisplay">$0.00</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="reset" class="btn-outline" data-i18n="form.reset">ڕێکخستنەوە</button>
+                        <button type="submit" class="btn-primary" id="submitFormBtn"><i class="fas fa-paper-plane"></i> <span data-i18n="form.submit">پێشکەشکردنی نرخ</span></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- ADMIN DASHBOARD -->
+        <section id="adminDashboard" class="hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="card flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-50/80 flex items-center justify-center text-indigo-600 text-xl"><i class="fas fa-users"></i></div>
+                    <div><p class="text-xs text-slate-400 uppercase tracking-wide" data-i18n="admin.totalVendors">کۆی دابینکەران</p><p class="font-bold text-slate-800 text-lg" id="adminTotalVendors">0</p></div>
+                </div>
+                <div class="card flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50/80 flex items-center justify-center text-emerald-600 text-xl"><i class="fas fa-file-invoice"></i></div>
+                    <div><p class="text-xs text-slate-400 uppercase tracking-wide" data-i18n="admin.totalSubmissions">کۆی پێشکەشکردنەکان</p><p class="font-bold text-slate-800 text-lg" id="adminTotalSubmissions">0</p></div>
+                </div>
+                <div class="card flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-50/80 flex items-center justify-center text-rose-600 text-xl"><i class="fas fa-tag"></i></div>
+                    <div><p class="text-xs text-slate-400 uppercase tracking-wide" data-i18n="admin.totalProducts">بەرهەمە ناوازەکان</p><p class="font-bold text-slate-800 text-lg" id="adminTotalProducts">0</p></div>
+                </div>
+                <div class="card flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50/80 flex items-center justify-center text-amber-600 text-xl"><i class="fas fa-chart-pie"></i></div>
+                    <div><p class="text-xs text-slate-400 uppercase tracking-wide" data-i18n="admin.marketTotal">کۆی بازاڕ</p><p class="font-bold text-slate-800 text-lg" id="adminMarketTotal">$0</p></div>
+                </div>
+            </div>
+            <div class="card mb-6">
+                <div class="card-header"><i class="fas fa-brain"></i><span data-i18n="admin.marketIntelligence">هۆشمەندی بازاڕ — کەمترین / زۆرترین نرخ</span></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th data-i18n="admin.product">بەرهەم</th><th data-i18n="admin.minPrice">کەمترین نرخ</th><th data-i18n="admin.minVendor">دابینکەر</th><th data-i18n="admin.maxPrice">زۆرترین نرخ</th><th data-i18n="admin.maxVendor">دابینکەر</th><th data-i18n="admin.spread">جیاوازی</th></tr></thead>
+                        <tbody id="marketIntelligenceBody"><tr><td colspan="6" class="text-center text-slate-400 py-6" data-i18n="admin.noData">هیچ داتای بەرهەمێک نییە.</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header flex flex-wrap items-center justify-between gap-3">
+                    <span><i class="fas fa-list-ul"></i> <span data-i18n="admin.allSubmissions">هەموو پێشکەشکردنەکان</span></span>
+                    <div class="flex gap-2 flex-wrap">
+                        <select class="form-select text-sm py-1 px-3 w-auto" id="adminFilterCategory">
+                            <option value="" data-i18n="admin.filterAll">هەموو پۆلەکان</option>
+                            <option value="electronics" data-i18n="cat.electronics">ئەلیکترۆنی</option>
+                            <option value="electrical" data-i18n="cat.electrical">کارەبایی</option>
+                            <option value="construction" data-i18n="cat.construction">بیناسازی</option>
+                            <option value="plumbing" data-i18n="cat.plumbing">پلامبنگ</option>
+                            <option value="tools" data-i18n="cat.tools">ئامراز</option>
+                            <option value="other" data-i18n="cat.other">تر</option>
+                        </select>
+                        <input type="text" class="form-control text-sm py-1 px-3 w-40" id="adminFilterShop" placeholder="گەڕان بە ناوی فرۆشگا..." />
+                        <button class="btn-primary text-sm py-1 px-4" id="adminFilterBtn"><i class="fas fa-filter"></i> پاڵێوراو</button>
+                        <button class="btn-outline text-sm py-1 px-4" id="adminResetFilterBtn"><i class="fas fa-undo"></i> ڕێکخستنەوە</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>#</th><th data-i18n="admin.shop">فرۆشگا</th><th data-i18n="admin.category">پۆل</th><th data-i18n="admin.items">بەرهەمەکان</th><th data-i18n="admin.total">کۆی گشتی</th><th data-i18n="admin.vendor">دابینکەر</th><th data-i18n="admin.date">بەروار</th></tr></thead>
+                        <tbody id="adminSubmissionsBody"><tr><td colspan="7" class="text-center text-slate-400 py-6" data-i18n="admin.noSubmissions">هیچ پێشکەشکردنێک نەدۆزرایەوە.</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- AUTH SECTION -->
+        <section id="authSection" class="hidden">
+            <div class="card max-w-md mx-auto">
+                <div class="card-header justify-center"><i class="fas fa-lock"></i><span id="authTitle" data-i18n="auth.loginTitle">چوونەژوورەوە</span></div>
+                <form id="authForm" class="space-y-4">
+                    <input type="hidden" id="authMode" value="login" />
+                    <div id="registerFields" class="hidden space-y-4">
+                        <div><label class="form-label" data-i18n="auth.shopName">ناوی فرۆشگا</label><input type="text" class="form-control" id="regShopName" placeholder="ناوی فرۆشگاکەت" /></div>
+                        <div><label class="form-label" data-i18n="auth.phone">ژمارەی پەیوەندی</label><input type="tel" class="form-control" id="regPhone" placeholder="+964 ..." /></div>
+                    </div>
+                    <div><label class="form-label" data-i18n="auth.emailOrUsername">ئیمەیڵ یان ناوی بەکارهێنەر</label><input type="text" class="form-control" id="authUsername" required placeholder="your@email.com" /></div>
+                    <div><label class="form-label" data-i18n="auth.password">وشەی نهێنی</label><input type="password" class="form-control" id="authPassword" required placeholder="••••••••" /></div>
+                    <button type="submit" class="btn-primary w-full justify-center" id="authSubmitBtn"><i class="fas fa-sign-in-alt"></i> <span data-i18n="auth.login">چوونەژوورەوە</span></button>
+                    <div class="text-center text-sm text-slate-500">
+                        <span id="authToggleText" data-i18n="auth.noAccount">هەژمارت نییە؟</span>
+                        <button type="button" class="text-blue-600 font-semibold hover:underline" id="authToggleBtn" data-i18n="auth.registerLink">تۆمارکردن</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->    
+    <!-- FOOTER -->
+    <footer class="bg-white/90 backdrop-blur-md border-t border-white/30 mt-auto py-6 text-center text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>&copy; <span id="footerYear">2026</span> <span data-i18n="footer.mop">وەزارەتی پێشمەرگە</span> — <span data-i18n="footer.rights">هەموو مافەکان پارێزراون</span>.</p>
+            <p class="text-xs text-slate-400 mt-1" data-i18n="footer.version">وەشانی 2.0 · پۆرتاڵی نرخی دابینکەران</p>
+            <!-- ناوی دیاری عطا احمد قاجری لە ژێر ڕستەکەدا -->
+            <p class="text-xs text-slate-400 mt-1">دیاری عطا احمد قاجری</p>
+        </div>
+    </footer>
+    <!-- ============================================================ -->
+    <!--  JAVASCRIPT — وەرگێڕان و کارلێک لەگەڵ API                     -->
+    <!-- ============================================================ -->
+    <script>
+        // ===================================================================
+        //  وەرگێڕانەکان (LOCALES)
+        // ===================================================================
+        const LOCALES = {
+            en: {
+                'nav.logo': 'Ministry of Peshmerga',
+                'nav.sub': 'Vendor Pricing Portal',
+                'nav.home': 'Home',
+                'nav.submit': 'Submit Pricing',
+                'nav.dashboard': 'Dashboard',
+                'nav.admin': 'Admin',
+                'nav.logout': 'Logout',
+                'nav.login': 'Login',
+                'nav.register': 'Register',
+                'page.title': 'Vendor Pricing Portal',
+                'welcome.greeting': 'Welcome',
+                'welcome.vendors': 'Active Vendors',
+                'welcome.submissions': 'Submissions',
+                'stats.myShop': 'My Shop',
+                'stats.mySubmissions': 'My Submissions',
+                'stats.products': 'Products',
+                'stats.totalValue': 'Total Value',
+                'recent.title': 'Recent Submissions',
+                'recent.date': 'Date',
+                'recent.shop': 'Shop',
+                'recent.category': 'Category',
+                'recent.items': 'Items',
+                'recent.total': 'Total',
+                'recent.status': 'Status',
+                'recent.empty': 'No submissions yet.',
+                'form.title': 'Submit Vendor Pricing',
+                'form.shopName': 'Shop / Company Name *',
+                'form.phone': 'Contact Phone *',
+                'form.email': 'Contact Email',
+                'form.category': 'Product Category *',
+                'form.selectCategory': '— Select Category —',
+                'form.products': 'Products & Pricing',
+                'form.addRow': 'Add Row',
+                'form.grandTotal': 'Grand Total',
+                'form.reset': 'Reset',
+                'form.submit': 'Submit Pricing',
+                'cat.electronics': 'Electronics',
+                'cat.electrical': 'Electrical',
+                'cat.construction': 'Construction / Hardware',
+                'cat.plumbing': 'Plumbing',
+                'cat.tools': 'Tools & Equipment',
+                'cat.other': 'Other',
+                'admin.totalVendors': 'Total Vendors',
+                'admin.totalSubmissions': 'Total Submissions',
+                'admin.totalProducts': 'Unique Products',
+                'admin.marketTotal': 'Market Total',
+                'admin.marketIntelligence': 'Market Intelligence — Min / Max Pricing',
+                'admin.product': 'Product',
+                'admin.minPrice': 'Min Price',
+                'admin.minVendor': 'Vendor',
+                'admin.maxPrice': 'Max Price',
+                'admin.maxVendor': 'Vendor',
+                'admin.spread': 'Spread',
+                'admin.noData': 'No product data available.',
+                'admin.allSubmissions': 'All Submissions',
+                'admin.filterAll': 'All Categories',
+                'admin.shop': 'Shop',
+                'admin.items': 'Items',
+                'admin.vendor': 'Vendor',
+                'admin.date': 'Date',
+                'admin.noSubmissions': 'No submissions found.',
+                'auth.loginTitle': 'Login',
+                'auth.registerTitle': 'Register',
+                'auth.shopName': 'Shop Name',
+                'auth.phone': 'Phone',
+                'auth.emailOrUsername': 'Email or Username',
+                'auth.password': 'Password',
+                'auth.login': 'Login',
+                'auth.register': 'Register',
+                'auth.noAccount': "Don't have an account?",
+                'auth.haveAccount': 'Already have an account?',
+                'auth.registerLink': 'Register',
+                'auth.loginLink': 'Login',
+                'footer.mop': 'Ministry of Peshmerga',
+                'footer.rights': 'All rights reserved',
+                'footer.version': 'v2.0 · Vendor Pricing Portal',
+                'toast.submitSuccess': 'Pricing submitted successfully!',
+                'toast.submitError': 'Error submitting pricing.',
+                'toast.loginSuccess': 'Login successful!',
+                'toast.loginError': 'Invalid credentials.',
+                'toast.registerSuccess': 'Registration successful! Please login.',
+                'toast.registerError': 'Registration failed. Try again.',
+                'toast.logout': 'Logged out.',
+                'toast.adminOnly': 'Admin access required.'
+            },
+            ar: {
+                'nav.logo': 'وزارة البيشمركة',
+                'nav.sub': 'بوابة تسعير الموردين',
+                'nav.home': 'الرئيسية',
+                'nav.submit': 'تقديم التسعير',
+                'nav.dashboard': 'لوحة التحكم',
+                'nav.admin': 'المشرف',
+                'nav.logout': 'تسجيل الخروج',
+                'nav.login': 'تسجيل الدخول',
+                'nav.register': 'التسجيل',
+                'page.title': 'بوابة تسعير الموردين',
+                'welcome.greeting': 'مرحباً',
+                'welcome.vendors': 'الموردين النشطين',
+                'welcome.submissions': 'الإرسالات',
+                'stats.myShop': 'متجري',
+                'stats.mySubmissions': 'إرسالاتي',
+                'stats.products': 'المنتجات',
+                'stats.totalValue': 'القيمة الإجمالية',
+                'recent.title': 'الإرسالات الأخيرة',
+                'recent.date': 'التاريخ',
+                'recent.shop': 'المتجر',
+                'recent.category': 'الفئة',
+                'recent.items': 'المنتجات',
+                'recent.total': 'الإجمالي',
+                'recent.status': 'الحالة',
+                'recent.empty': 'لا توجد إرسالات بعد.',
+                'form.title': 'تقديم تسعير المورد',
+                'form.shopName': 'اسم المتجر / الشركة *',
+                'form.phone': 'هاتف التواصل *',
+                'form.email': 'البريد الإلكتروني',
+                'form.category': 'فئة المنتج *',
+                'form.selectCategory': '— اختر الفئة —',
+                'form.products': 'المنتجات والتسعير',
+                'form.addRow': 'إضافة صف',
+                'form.grandTotal': 'المجموع الكلي',
+                'form.reset': 'إعادة تعيين',
+                'form.submit': 'تقديم التسعير',
+                'cat.electronics': 'إلكترونيات',
+                'cat.electrical': 'كهربائية',
+                'cat.construction': 'إنشاءات / مواد بناء',
+                'cat.plumbing': 'سباكة',
+                'cat.tools': 'أدوات ومعدات',
+                'cat.other': 'أخرى',
+                'admin.totalVendors': 'إجمالي الموردين',
+                'admin.totalSubmissions': 'إجمالي الإرسالات',
+                'admin.totalProducts': 'المنتجات الفريدة',
+                'admin.marketTotal': 'القيمة السوقية',
+                'admin.marketIntelligence': 'ذكاء السوق — الحد الأدنى / الأقصى',
+                'admin.product': 'المنتج',
+                'admin.minPrice': 'أقل سعر',
+                'admin.minVendor': 'المورد',
+                'admin.maxPrice': 'أعلى سعر',
+                'admin.maxVendor': 'المورد',
+                'admin.spread': 'الفارق',
+                'admin.noData': 'لا توجد بيانات منتجات.',
+                'admin.allSubmissions': 'جميع الإرسالات',
+                'admin.filterAll': 'جميع الفئات',
+                'admin.shop': 'المتجر',
+                'admin.items': 'المنتجات',
+                'admin.vendor': 'المورد',
+                'admin.date': 'التاريخ',
+                'admin.noSubmissions': 'لا توجد إرسالات.',
+                'auth.loginTitle': 'تسجيل الدخول',
+                'auth.registerTitle': 'التسجيل',
+                'auth.shopName': 'اسم المتجر',
+                'auth.phone': 'الهاتف',
+                'auth.emailOrUsername': 'البريد الإلكتروني أو اسم المستخدم',
+                'auth.password': 'كلمة المرور',
+                'auth.login': 'تسجيل الدخول',
+                'auth.register': 'التسجيل',
+                'auth.noAccount': 'ليس لديك حساب؟',
+                'auth.haveAccount': 'لديك حساب بالفعل؟',
+                'auth.registerLink': 'التسجيل',
+                'auth.loginLink': 'تسجيل الدخول',
+                'footer.mop': 'وزارة البيشمركة',
+                'footer.rights': 'جميع الحقوق محفوظة',
+                'footer.version': 'الإصدار 2.0 · بوابة تسعير الموردين',
+                'toast.submitSuccess': 'تم تقديم التسعير بنجاح!',
+                'toast.submitError': 'خطأ في تقديم التسعير.',
+                'toast.loginSuccess': 'تم تسجيل الدخول بنجاح!',
+                'toast.loginError': 'بيانات دخول غير صحيحة.',
+                'toast.registerSuccess': 'تم التسجيل بنجاح! يرجى تسجيل الدخول.',
+                'toast.registerError': 'فشل التسجيل. حاول مرة أخرى.',
+                'toast.logout': 'تم تسجيل الخروج.',
+                'toast.adminOnly': 'مطلوب صلاحية المشرف.'
+            },
+            ku: {
+                'nav.logo': 'وەزارەتی پێشمەرگە',
+                'nav.sub': 'پۆرتاڵی نرخی دابینکەران',
+                'nav.home': 'سەرەکی',
+                'nav.submit': 'پێشکەشکردنی نرخ',
+                'nav.dashboard': 'داشبۆرد',
+                'nav.admin': 'بەڕێوەبەر',
+                'nav.logout': 'چوونەدەرەوە',
+                'nav.login': 'چوونەژوورەوە',
+                'nav.register': 'تۆمارکردن',
+                'page.title': 'پۆرتاڵی نرخی دابینکەران',
+                'welcome.greeting': 'بەخێربێیت',
+                'welcome.vendors': 'دابینکەرانی چالاک',
+                'welcome.submissions': 'پێشکەشکردنەکان',
+                'stats.myShop': 'فرۆشگاکەم',
+                'stats.mySubmissions': 'پێشکەشکردنەکانم',
+                'stats.products': 'بەرهەمەکان',
+                'stats.totalValue': 'کۆی نرخ',
+                'recent.title': 'پێشکەشکردنە نوێیەکان',
+                'recent.date': 'بەروار',
+                'recent.shop': 'فرۆشگا',
+                'recent.category': 'پۆل',
+                'recent.items': 'بەرهەمەکان',
+                'recent.total': 'کۆی گشتی',
+                'recent.status': 'دۆخ',
+                'recent.empty': 'هیچ پێشکەشکردنێک نییە.',
+                'form.title': 'پێشکەشکردنی نرخی دابینکەر',
+                'form.shopName': 'ناوی فرۆشگا / کۆمپانیا *',
+                'form.phone': 'ژمارەی پەیوەندی *',
+                'form.email': 'ئیمەیڵی پەیوەندی',
+                'form.category': 'پۆلی بەرهەم *',
+                'form.selectCategory': '— پۆلێک هەڵبژێرە —',
+                'form.products': 'بەرهەم و نرخ',
+                'form.addRow': 'زیادکردنی ڕیز',
+                'form.grandTotal': 'کۆی گشتی',
+                'form.reset': 'ڕێکخستنەوە',
+                'form.submit': 'پێشکەشکردنی نرخ',
+                'cat.electronics': 'ئەلیکترۆنی',
+                'cat.electrical': 'کارەبایی',
+                'cat.construction': 'بیناسازی / کەلوپەل',
+                'cat.plumbing': 'پلامبنگ',
+                'cat.tools': 'ئامراز و کەلوپەل',
+                'cat.other': 'تر',
+                'admin.totalVendors': 'کۆی دابینکەران',
+                'admin.totalSubmissions': 'کۆی پێشکەشکردنەکان',
+                'admin.totalProducts': 'بەرهەمە ناوازەکان',
+                'admin.marketTotal': 'کۆی بازاڕ',
+                'admin.marketIntelligence': 'هۆشمەندی بازاڕ — کەمترین / زۆرترین نرخ',
+                'admin.product': 'بەرهەم',
+                'admin.minPrice': 'کەمترین نرخ',
+                'admin.minVendor': 'دابینکەر',
+                'admin.maxPrice': 'زۆرترین نرخ',
+                'admin.maxVendor': 'دابینکەر',
+                'admin.spread': 'جیاوازی',
+                'admin.noData': 'هیچ داتای بەرهەمێک نییە.',
+                'admin.allSubmissions': 'هەموو پێشکەشکردنەکان',
+                'admin.filterAll': 'هەموو پۆلەکان',
+                'admin.shop': 'فرۆشگا',
+                'admin.items': 'بەرهەمەکان',
+                'admin.vendor': 'دابینکەر',
+                'admin.date': 'بەروار',
+                'admin.noSubmissions': 'هیچ پێشکەشکردنێک نەدۆزرایەوە.',
+                'auth.loginTitle': 'چوونەژوورەوە',
+                'auth.registerTitle': 'تۆمارکردن',
+                'auth.shopName': 'ناوی فرۆشگا',
+                'auth.phone': 'ژمارەی پەیوەندی',
+                'auth.emailOrUsername': 'ئیمەیڵ یان ناوی بەکارهێنەر',
+                'auth.password': 'وشەی نهێنی',
+                'auth.login': 'چوونەژوورەوە',
+                'auth.register': 'تۆمارکردن',
+                'auth.noAccount': 'هەژمارت نییە؟',
+                'auth.haveAccount': 'هەژمارت هەیە؟',
+                'auth.registerLink': 'تۆمارکردن',
+                'auth.loginLink': 'چوونەژوورەوە',
+                'footer.mop': 'وەزارەتی پێشمەرگە',
+                'footer.rights': 'هەموو مافەکان پارێزراون',
+                'footer.version': 'وەشانی 2.0 · پۆرتاڵی نرخی دابینکەران',
+                'toast.submitSuccess': 'نرخ بە سەرکەوتوویی پێشکەش کرا!',
+                'toast.submitError': 'هەڵە لە پێشکەشکردنی نرخ.',
+                'toast.loginSuccess': 'چوونەژوورەوە سەرکەوتوو بوو!',
+                'toast.loginError': 'داتای چوونەژوورەوە هەڵەیە.',
+                'toast.registerSuccess': 'تۆمارکردن سەرکەوتوو بوو! تکایە بچۆرە ژوورەوە.',
+                'toast.registerError': 'تۆمارکردن سەرکەوتوو نەبوو. دووبارە بکەوە.',
+                'toast.logout': 'چوویتە دەرەوە.',
+                'toast.adminOnly': 'پێویستی بە ڕێگەی بەڕێوەبەر هەیە.'
+            }
+        };
+
+        // ===================================================================
+        //  STATE
+        // ===================================================================
+        let currentLang = 'ku';
+        let currentUser = null;
+        let isAdmin = false;
+        let submissionsCache = [];
+        let vendorsCache = [];
+
+        // ===================================================================
+        //  API BASE
+        // ===================================================================
+        const API_BASE = window.location.origin + '/api';
+
+        // ===================================================================
+        //  API REQUEST
+        // ===================================================================
+        async function apiRequest(endpoint, method = 'GET', body = null) {
+            const options = {
+                method,
+                headers: { 'Content-Type': 'application/json' }
+            };
+            if (body) options.body = JSON.stringify(body);
+            const res = await fetch(`${API_BASE}${endpoint}`, options);
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'API error');
+            return data;
+        }
+
+        // ===================================================================
+        //  API FUNCTIONS
+        // ===================================================================
+        async function loginUser(username, password) {
+            return await apiRequest('/login', 'POST', { username, password });
+        }
+        async function registerUser(username, password, shopName, phone, email) {
+            return await apiRequest('/register', 'POST', { username, password, shopName, phone, email });
+        }
+        async function createSubmission(data) {
+            return await apiRequest('/submissions', 'POST', data);
+        }
+        async function getSubmissionsForVendor(vendorId) {
+            return await apiRequest(`/submissions/vendor/${vendorId}`);
+        }
+        async function getAllSubmissions(filters = {}) {
+            let url = '/submissions?';
+            const params = new URLSearchParams();
+            if (filters.category) params.append('category', filters.category);
+            if (filters.shop) params.append('shop', filters.shop);
+            url += params.toString();
+            return await apiRequest(url);
+        }
+        async function getVendors() {
+            return await apiRequest('/vendors');
+        }
+
+        // ===================================================================
+        //  I18N ENGINE
+        // ===================================================================
+        function t(key) {
+            const lang = currentLang || 'ku';
+            const loc = LOCALES[lang] || LOCALES.ku;
+            return loc[key] || key;
+        }
+
+        function setLang(lang) {
+            if (!LOCALES[lang]) lang = 'ku';
+            currentLang = lang;
+            document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                const val = t(key);
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+                    if (el.placeholder !== undefined) el.placeholder = val;
+                } else if (el.tagName === 'OPTION') {
+                    el.textContent = val;
+                } else {
+                    el.textContent = val;
+                }
+            });
+            document.querySelectorAll('#langSwitcher button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            renderAll();
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        // ===================================================================
+        //  TOAST
+        // ===================================================================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(40px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // ===================================================================
+        //  REFRESH DATA
+        // ===================================================================
+        async function refreshAllData() {
+            if (!currentUser) return;
+            try {
+                if (isAdmin) {
+                    submissionsCache = await getAllSubmissions();
+                    vendorsCache = await getVendors();
+                } else {
+                    submissionsCache = await getSubmissionsForVendor(currentUser.id);
+                }
+            } catch (e) {
+                showToast(e.message || 'Failed to load data', 'error');
+            }
+        }
+
+        // ===================================================================
+        //  RENDER FUNCTIONS
+        // ===================================================================
+        function renderDashboard() {
+            if (!currentUser || isAdmin) {
+                document.getElementById('vendorDashboard').classList.add('hidden');
+                return;
+            }
+            document.getElementById('vendorDashboard').classList.remove('hidden');
+            const mySubs = submissionsCache.filter(s => s.vendorId === currentUser.id);
+            document.getElementById('myShopName').textContent = currentUser.shopName || currentUser.username;
+            document.getElementById('mySubmissionsCount').textContent = mySubs.length;
+            const allItems = mySubs.flatMap(s => s.items);
+            document.getElementById('myProductsCount').textContent = allItems.length;
+            const totalVal = mySubs.reduce((sum, s) => sum + s.total, 0);
+            document.getElementById('myTotalValue').textContent = '$' + totalVal.toFixed(2);
+
+            const recent = mySubs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 10);
+            const tbody = document.getElementById('recentSubmissionsBody');
+            if (recent.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-slate-400 py-6">${t('recent.empty')}</td></tr>`;
+            } else {
+                tbody.innerHTML = recent.map(s => `
+                    <tr>
+                        <td>${new Date(s.createdAt).toLocaleDateString()}</td>
+                        <td class="font-medium">${s.shopName}</td>
+                        <td>${t('cat.' + s.category) || s.category}</td>
+                        <td>${s.items.length}</td>
+                        <td class="font-bold text-blue-700">$${s.total.toFixed(2)}</td>
+                        <td><span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">${t('recent.status')}</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderAdminDashboard() {
+            if (!currentUser || !isAdmin) {
+                document.getElementById('adminDashboard').classList.add('hidden');
+                return;
+            }
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            const all = submissionsCache;
+            document.getElementById('adminTotalVendors').textContent = vendorsCache.filter(v => v.role === 'vendor').length;
+            document.getElementById('adminTotalSubmissions').textContent = all.length;
+            const allItems = all.flatMap(s => s.items);
+            const uniqueProducts = new Set(allItems.map(i => i.productName.trim().toLowerCase()));
+            document.getElementById('adminTotalProducts').textContent = uniqueProducts.size;
+            const totalMarket = all.reduce((sum, s) => sum + s.total, 0);
+            document.getElementById('adminMarketTotal').textContent = '$' + totalMarket.toFixed(2);
+        }
+
+        function renderMarketIntelligence() {
+            if (!currentUser || !isAdmin) {
+                document.getElementById('marketIntelligenceBody').innerHTML =
+                    `<tr><td colspan="6" class="text-center text-slate-400 py-6">${t('admin.noData')}</td></tr>`;
+                return;
+            }
+            const productMap = {};
+            submissionsCache.forEach(sub => {
+                sub.items.forEach(item => {
+                    const key = item.productName.trim().toLowerCase();
+                    if (!productMap[key]) productMap[key] = { productName: item.productName, prices: [] };
+                    productMap[key].prices.push({
+                        price: item.unitPrice,
+                        vendor: sub.shopName,
+                        vendorId: sub.vendorId,
+                        submissionId: sub.id,
+                    });
+                });
+            });
+            const data = [];
+            for (const key in productMap) {
+                const entry = productMap[key];
+                const prices = entry.prices;
+                const min = prices.reduce((a, b) => a.price < b.price ? a : b);
+                const max = prices.reduce((a, b) => a.price > b.price ? a : b);
+                data.push({
+                    productName: entry.productName,
+                    minPrice: min.price,
+                    minVendor: min.vendor,
+                    maxPrice: max.price,
+                    maxVendor: max.vendor,
+                    spread: max.price - min.price,
+                    count: prices.length,
+                });
+            }
+            data.sort((a, b) => a.productName.localeCompare(b.productName));
+
+            const tbody = document.getElementById('marketIntelligenceBody');
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-slate-400 py-6">${t('admin.noData')}</td></tr>`;
+            } else {
+                tbody.innerHTML = data.map(d => `
+                    <tr>
+                        <td class="font-medium">${d.productName}</td>
+                        <td><span class="badge-min">$${d.minPrice.toFixed(2)}</span></td>
+                        <td class="text-sm text-slate-600">${d.minVendor}</td>
+                        <td><span class="badge-max">$${d.maxPrice.toFixed(2)}</span></td>
+                        <td class="text-sm text-slate-600">${d.maxVendor}</td>
+                        <td class="text-sm">$${d.spread.toFixed(2)} <span class="text-xs text-slate-400">(${d.count} offers)</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderAdminSubmissions() {
+            if (!currentUser || !isAdmin) {
+                document.getElementById('adminSubmissionsBody').innerHTML =
+                    `<tr><td colspan="7" class="text-center text-slate-400 py-6">${t('admin.noSubmissions')}</td></tr>`;
+                return;
+            }
+            const cat = document.getElementById('adminFilterCategory').value;
+            const shop = document.getElementById('adminFilterShop').value.trim().toLowerCase();
+            let filtered = submissionsCache;
+            if (cat) filtered = filtered.filter(s => s.category === cat);
+            if (shop) filtered = filtered.filter(s => s.shopName.toLowerCase().includes(shop));
+
+            const tbody = document.getElementById('adminSubmissionsBody');
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-slate-400 py-6">${t('admin.noSubmissions')}</td></tr>`;
+            } else {
+                tbody.innerHTML = filtered.map((s, idx) => `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td class="font-medium">${s.shopName}</td>
+                        <td>${t('cat.' + s.category) || s.category}</td>
+                        <td>${s.items.length}</td>
+                        <td class="font-bold text-blue-700">$${s.total.toFixed(2)}</td>
+                        <td class="text-sm text-slate-600">${s.contactEmail || '—'}</td>
+                        <td class="text-sm text-slate-500">${new Date(s.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderAll() {
+            renderDashboard();
+            renderAdminDashboard();
+            renderMarketIntelligence();
+            renderAdminSubmissions();
+        }
+
+        // ===================================================================
+        //  PRODUCT ROW MANAGEMENT
+        // ===================================================================
+        let rowIdCounter = 0;
+
+        function createProductRow(data = {}) {
+            const id = ++rowIdCounter;
+            const row = document.createElement('div');
+            row.className = 'product-row';
+            row.dataset.rowId = id;
+            row.innerHTML = `
+                <input type="text" class="form-control product-name" placeholder="${t('form.productName') || 'ناوی بەرهەم'}" value="${data.productName || ''}" />
+                <input type="number" class="form-control product-qty" placeholder="بڕ" min="1" step="1" value="${data.quantity || 1}" />
+                <input type="number" class="form-control product-unit" placeholder="نرخی یەکە $" min="0" step="0.01" value="${data.unitPrice || ''}" />
+                <span class="row-total product-row-total">$${(data.quantity || 0) * (data.unitPrice || 0)}</span>
+                <button type="button" class="btn-danger remove-row-btn" title="${t('form.removeRow') || 'سڕینەوە'}"><i class="fas fa-trash-alt"></i></button>
+            `;
+            row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', updateRowTotals));
+            row.querySelector('.remove-row-btn').addEventListener('click', () => {
+                row.remove();
+                updateRowTotals();
+            });
+            return row;
+        }
+
+        function updateRowTotals() {
+            const rows = document.querySelectorAll('.product-row');
+            let grandTotal = 0;
+            rows.forEach(row => {
+                const qty = parseFloat(row.querySelector('.product-qty')?.value) || 0;
+                const unit = parseFloat(row.querySelector('.product-unit')?.value) || 0;
+                const total = qty * unit;
+                row.querySelector('.product-row-total').textContent = '$' + total.toFixed(2);
+                grandTotal += total;
+            });
+            document.getElementById('grandTotalDisplay').textContent = '$' + grandTotal.toFixed(2);
+        }
+
+        // ===================================================================
+        //  UI NAVIGATION
+        // ===================================================================
+        function showView(view) {
+            document.getElementById('vendorDashboard').classList.add('hidden');
+            document.getElementById('submissionForm').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+            document.getElementById('authSection').classList.add('hidden');
+
+            if (view === 'dashboard') {
+                if (isAdmin) {
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    renderAll();
+                } else if (currentUser) {
+                    document.getElementById('vendorDashboard').classList.remove('hidden');
+                    renderAll();
+                } else {
+                    document.getElementById('authSection').classList.remove('hidden');
+                    document.getElementById('authMode').value = 'login';
+                    updateAuthUI();
+                }
+            } else if (view === 'submit') {
+                if (!currentUser || isAdmin) {
+                    showToast(t('toast.adminOnly'), 'error');
+                    document.getElementById('authSection').classList.remove('hidden');
+                    document.getElementById('authMode').value = 'login';
+                    updateAuthUI();
+                    return;
+                }
+                document.getElementById('submissionForm').classList.remove('hidden');
+                document.getElementById('shopName').value = currentUser.shopName || '';
+                document.getElementById('contactPhone').value = currentUser.phone || '';
+                document.getElementById('contactEmail').value = currentUser.email || '';
+                if (document.querySelectorAll('.product-row').length === 0) {
+                    document.getElementById('productRowsContainer').appendChild(createProductRow());
+                }
+                updateRowTotals();
+            } else if (view === 'admin') {
+                if (!currentUser || !isAdmin) {
+                    showToast(t('toast.adminOnly'), 'error');
+                    document.getElementById('authSection').classList.remove('hidden');
+                    document.getElementById('authMode').value = 'login';
+                    updateAuthUI();
+                    return;
+                }
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                renderAll();
+            } else if (view === 'auth') {
+                document.getElementById('authSection').classList.remove('hidden');
+                updateAuthUI();
+            } else {
+                if (currentUser) {
+                    if (isAdmin) {
+                        document.getElementById('adminDashboard').classList.remove('hidden');
+                        renderAll();
+                    } else {
+                        document.getElementById('vendorDashboard').classList.remove('hidden');
+                        renderAll();
+                    }
+                } else {
+                    document.getElementById('authSection').classList.remove('hidden');
+                    document.getElementById('authMode').value = 'login';
+                    updateAuthUI();
+                }
+            }
+            updateNavLinks();
+        }
+
+        function updateNavLinks() {
+            document.querySelectorAll('#navLinks a').forEach(a => {
+                const href = a.getAttribute('href');
+                if (href === '/logout') a.style.display = currentUser ? 'inline' : 'none';
+                else if (href === '/login' || href === '/register') a.style.display = currentUser ? 'none' : 'inline';
+                else if (href === '/submit') a.style.display = (currentUser && !isAdmin) ? 'inline' : 'none';
+            });
+        }
+
+        function updateAuthUI() {
+            const mode = document.getElementById('authMode').value;
+            if (mode === 'login') {
+                document.getElementById('authTitle').textContent = t('auth.loginTitle');
+                document.getElementById('authSubmitBtn').innerHTML = `<i class="fas fa-sign-in-alt"></i> ${t('auth.login')}`;
+                document.getElementById('registerFields').classList.add('hidden');
+                document.getElementById('authToggleText').textContent = t('auth.noAccount');
+                document.getElementById('authToggleBtn').textContent = t('auth.registerLink');
+                document.getElementById('authToggleBtn').dataset.mode = 'register';
+            } else {
+                document.getElementById('authTitle').textContent = t('auth.registerTitle');
+                document.getElementById('authSubmitBtn').innerHTML = `<i class="fas fa-user-plus"></i> ${t('auth.register')}`;
+                document.getElementById('registerFields').classList.remove('hidden');
+                document.getElementById('authToggleText').textContent = t('auth.haveAccount');
+                document.getElementById('authToggleBtn').textContent = t('auth.loginLink');
+                document.getElementById('authToggleBtn').dataset.mode = 'login';
+            }
+        }
+
+        // ===================================================================
+        //  EVENT BINDINGS
+        // ===================================================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+                weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+            });
+            document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+            const savedLang = localStorage.getItem('preferredLang') || 'ku';
+            setLang(savedLang);
+
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                try {
+                    const user = JSON.parse(savedUser);
+                    currentUser = user;
+                    isAdmin = user.role === 'admin';
+                    await refreshAllData();
+                    showView('home');
+                } catch (e) {
+                    localStorage.removeItem('currentUser');
+                    showView('auth');
+                }
+            } else {
+                showView('auth');
+            }
+
+            // Language switcher
+            document.querySelectorAll('#langSwitcher button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setLang(btn.dataset.lang);
+                    renderAll();
+                    if (!document.getElementById('authSection').classList.contains('hidden')) updateAuthUI();
+                });
+            });
+
+            // Nav toggle
+            document.getElementById('navToggle').addEventListener('click', () => {
+                document.getElementById('navLinks').classList.toggle('open');
+            });
+
+            // Navigation clicks (چاککراوە - بەستەرە زیادەکان سڕدراون)
+            document.getElementById('navLinks').addEventListener('click', (e) => {
+                const a = e.target.closest('a');
+                if (!a) return;
+                e.preventDefault();
+                const href = a.getAttribute('href');
+
+                // گۆڕینی ناونیشان بەبێ نوێکردنەوە
+                if (href !== '/logout' && href !== '/login' && href !== '/register') {
+                    window.history.pushState({}, '', href);
+                }
+
+                // بەڕێوەبردنی چوونەدەرەوە (Logout)
+                if (href === '/logout') {
+                    currentUser = null;
+                    isAdmin = false;
+                    localStorage.removeItem('currentUser');
+                    showToast(t('toast.logout'), 'info');
+                    showView('home');
+                    document.getElementById('navLinks').classList.remove('open');
+                    return;
+                }
+
+                // بەڕێوەبردنی چوونەژوورەوە / تۆمارکردن
+                if (href === '/login' || href === '/register') {
+                    document.getElementById('authMode').value = href === '/register' ? 'register' : 'login';
+                    updateAuthUI();
+                    showView('auth');
+                    document.getElementById('navLinks').classList.remove('open');
+                    return;
+                }
+
+                // بەڕێوەبردنی پێشکەشکردنی نرخ
+                if (href === '/submit') {
+                    showView('submit');
+                    document.getElementById('navLinks').classList.remove('open');
+                    return;
+                }
+            });
+
+            // پشتیوانی لە دوگمەی پێش و دوا (Back/Forward)
+            window.addEventListener('popstate', () => {
+                const path = window.location.pathname;
+                if (path === '/submit') showView('submit');
+                else if (path === '/login' || path === '/register') showView('auth');
+                else showView('home');
+            });
+
+            // Auth toggle
+            document.getElementById('authToggleBtn').addEventListener('click', () => {
+                document.getElementById('authMode').value = document.getElementById('authToggleBtn').dataset.mode;
+                updateAuthUI();
+            });
+
+            // Auth form
+            document.getElementById('authForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const mode = document.getElementById('authMode').value;
+                const username = document.getElementById('authUsername').value.trim();
+                const password = document.getElementById('authPassword').value.trim();
+
+                try {
+                    if (mode === 'login') {
+                        const user = await loginUser(username, password);
+                        currentUser = user;
+                        isAdmin = user.role === 'admin';
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                        await refreshAllData();
+                        showToast(t('toast.loginSuccess'), 'success');
+                        showView('home');
+                    } else {
+                        const shopName = document.getElementById('regShopName').value.trim() || username;
+                        const phone = document.getElementById('regPhone').value.trim() || '';
+                        const email = username;
+                        await registerUser(username, password, shopName, phone, email);
+                        showToast(t('toast.registerSuccess'), 'success');
+                        document.getElementById('authMode').value = 'login';
+                        updateAuthUI();
+                        document.getElementById('authUsername').value = username;
+                        document.getElementById('authPassword').value = '';
+                    }
+                } catch (err) {
+                    showToast(err.message || t('toast.loginError'), 'error');
+                }
+            });
+
+            // Add row
+            document.getElementById('addRowBtn').addEventListener('click', () => {
+                document.getElementById('productRowsContainer').appendChild(createProductRow());
+                updateRowTotals();
+            });
+
+            // Submit pricing
+            document.getElementById('pricingForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!currentUser || isAdmin) {
+                    showToast(t('toast.adminOnly'), 'error');
+                    return;
+                }
+                const shopName = document.getElementById('shopName').value.trim();
+                const contactPhone = document.getElementById('contactPhone').value.trim();
+                const contactEmail = document.getElementById('contactEmail').value.trim();
+                const category = document.getElementById('productCategory').value;
+                if (!shopName || !contactPhone || !category) {
+                    showToast('تکایە هەموو بەشە پێویستەکان پڕ بکەوە.', 'error');
+                    return;
+                }
+                const rows = document.querySelectorAll('.product-row');
+                const items = [];
+                let valid = true;
+                rows.forEach(row => {
+                    const name = row.querySelector('.product-name').value.trim();
+                    const qty = parseFloat(row.querySelector('.product-qty').value) || 0;
+                    const unit = parseFloat(row.querySelector('.product-unit').value) || 0;
+                    if (name && qty > 0 && unit > 0) {
+                        items.push({ productName: name, quantity: qty, unitPrice: unit });
+                    } else {
+                        valid = false;
+                    }
+                });
+                if (!valid || items.length === 0) {
+                    showToast('تکایە لانیکەم یەک ڕیزی بەرهەمی دروست زیاد بکە.', 'error');
+                    return;
+                }
+                try {
+                    await createSubmission({
+                        vendorId: currentUser.id,
+                        shopName,
+                        contactPhone,
+                        contactEmail,
+                        category,
+                        items
+                    });
+                    showToast(t('toast.submitSuccess'), 'success');
+                    document.getElementById('productCategory').value = '';
+                    document.getElementById('productRowsContainer').innerHTML = '';
+                    document.getElementById('productRowsContainer').appendChild(createProductRow());
+                    updateRowTotals();
+                    await refreshAllData();
+                    showView('home');
+                } catch (err) {
+                    showToast(err.message || t('toast.submitError'), 'error');
+                }
+            });
+
+            // Admin filter
+            document.getElementById('adminFilterBtn').addEventListener('click', renderAdminSubmissions);
+            document.getElementById('adminResetFilterBtn').addEventListener('click', () => {
+                document.getElementById('adminFilterCategory').value = '';
+                document.getElementById('adminFilterShop').value = '';
+                renderAdminSubmissions();
+            });
+
+            // Initial row
+            if (document.getElementById('productRowsContainer').children.length === 0) {
+                document.getElementById('productRowsContainer').appendChild(createProductRow());
+            }
+            updateRowTotals();
+        });
+    </script>
+</body>
+</html>
