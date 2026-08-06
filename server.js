@@ -198,23 +198,19 @@ app.get('/api/vendors', (req, res) => {
 
 // ============================
 //  ڕێڕەوی گشتی بۆ SPA
-//  تەنها داواکارییەکانی HTML دەنێرێت بۆ index.html
+//  تەنها HTML دەگەڕێنێتەوە، نەک API
 // ============================
-app.get('*', (req, res) => {
-  // ئەگەر داواکاری بۆ ڕێڕەوی API بێت، 404 JSON بگەڕێنەوە
+app.use((req, res, next) => {
+  // ئەگەر داواکاری بە /api دەست پێبکات، بەردەوام بە (بۆ ڕێڕەوەکانی API)
   if (req.path.startsWith('/api/')) {
-    return res.status(404).json({ error: 'API endpoint not found' });
+    return next();
   }
-  
-  // ئەگەر داواکاری بۆ ڕێڕەوی فایلێک نەبێت (وەک .css, .js, .png) 
-  // و داواکاری HTML بێت، index.html بگەڕێنەوە
-  const accept = req.headers.accept || '';
-  if (accept.includes('text/html') || req.path === '/') {
-    return res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  // ئەگەر داواکاری بۆ فایلێکی ستاتیک بێت، بەردەوام بە
+  if (req.path.match(/\.(css|js|png|jpg|jpeg|gif|ico|svg|json)$/)) {
+    return next();
   }
-  
-  // ئەگەر داواکاری بۆ شتێکی تر بێت، 404 بگەڕێنەوە
-  res.status(404).json({ error: 'Not found' });
+  // ئەگەر داواکاری بۆ HTML بێت، index.html بگەڕێنەوە
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // ============================
