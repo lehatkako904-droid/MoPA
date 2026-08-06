@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
 // ============================
 //  پێکهێنانی پایەی داتا
 // ============================
@@ -200,6 +201,10 @@ app.get('/api/vendors', (req, res) => {
 //  ئەم ڕێڕەوە دەبێت لە کۆتایی هەموو ڕێڕەوەکانی APIـدا بێت
 // ============================
 app.get('*', (req, res) => {
+    // ئەگەر داواکاری بۆ ڕێڕەوی API بێت و نەدۆزرایەوە، 404 بگەڕێنەوە
+    if (req.path.startsWith('/api/')) {
+        return res.status(404).json({ error: 'API endpoint not found' });
+    }
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
